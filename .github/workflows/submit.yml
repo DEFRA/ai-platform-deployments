@@ -29,6 +29,7 @@ on:
         required: false
         default: "0"
       requested_by:
+        description: Set by the Portal API. A person who runs this by hand is recorded as github:{user ID}.
         type: string
         required: false
         default: ""
