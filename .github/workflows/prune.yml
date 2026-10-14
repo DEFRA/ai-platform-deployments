@@ -1,0 +1,15 @@
+name: Prune
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  prune:
+    uses: DEFRA/ai-platform-workflows/.github/workflows/prune-op-branches.yml@v1
+    permissions:
+      contents: write
+      pull-requests: read

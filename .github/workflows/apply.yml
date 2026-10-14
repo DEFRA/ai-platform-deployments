@@ -1,0 +1,40 @@
+name: Apply
+
+on:
+  push:
+    branches: [main]
+    paths: ['environments/*/platform.json']
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: string
+        required: true
+      reason:
+        type: string
+        required: false
+        default: ""
+      allow_destroy:
+        description: Break-glass, engineers only.
+        type: boolean
+        default: false
+      force_unlock:
+        description: Break-glass, engineers only; a state lease ID.
+        type: string
+        default: ""
+
+run-name: apply ${{ inputs.environment || 'changed environments' }} ${{ inputs.reason }}
+
+permissions: {}
+
+jobs:
+  apply:
+    uses: DEFRA/ai-platform-workflows/.github/workflows/apply-state.yml@v1
+    permissions:
+      contents: read
+      deployments: read
+      id-token: write
+    with:
+      state: platform
+      environment: ${{ inputs.environment }}
+      allow_destroy: ${{ inputs.allow_destroy == true }}
+      force_unlock: ${{ inputs.force_unlock }}

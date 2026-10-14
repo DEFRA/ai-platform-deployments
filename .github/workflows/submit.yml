@@ -1,0 +1,57 @@
+name: Submit
+
+# Dispatched by the Portal API (and, for pins, the infra release) with the
+# whole document. Contract: ai-platform-infra docs/gitops-contract.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        options: [write, remove, abandon]
+        required: true
+      environment:
+        type: string
+        required: true
+      path:
+        type: string
+        required: false
+        default: ""
+      document:
+        type: string
+        required: false
+        default: ""
+      operation_id:
+        type: string
+        required: true
+      expected_revision:
+        type: string
+        required: false
+        default: "0"
+      requested_by:
+        type: string
+        required: false
+        default: ""
+      trace_parent:
+        type: string
+        required: false
+        default: ""
+
+run-name: submit ${{ inputs.action }} ${{ inputs.path }} (${{ inputs.operation_id }})
+
+permissions: {}
+
+jobs:
+  submit:
+    uses: DEFRA/ai-platform-workflows/.github/workflows/submit-desired-state.yml@v1
+    permissions:
+      contents: read
+    with:
+      action: ${{ inputs.action }}
+      environment: ${{ inputs.environment }}
+      path: ${{ inputs.path }}
+      document: ${{ inputs.document }}
+      operation_id: ${{ inputs.operation_id }}
+      expected_revision: ${{ inputs.expected_revision }}
+      requested_by: ${{ inputs.requested_by }}
+      trace_parent: ${{ inputs.trace_parent }}

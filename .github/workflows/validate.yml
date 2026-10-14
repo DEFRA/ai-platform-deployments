@@ -1,0 +1,21 @@
+name: Validate
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  pull_request_review:
+    types: [submitted, dismissed]
+
+permissions: {}
+
+concurrency:
+  group: validate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-desired-state:
+    uses: DEFRA/ai-platform-workflows/.github/workflows/validate-desired-state.yml@v1
+    permissions:
+      contents: read
+      pull-requests: read
