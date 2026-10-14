@@ -46,6 +46,7 @@ jobs:
     uses: DEFRA/ai-platform-workflows/.github/workflows/submit-desired-state.yml@v1
     permissions:
       contents: read
+      pull-requests: read
     with:
       action: ${{ inputs.action }}
       environment: ${{ inputs.environment }}
