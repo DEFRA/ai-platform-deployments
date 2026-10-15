@@ -29,6 +29,7 @@ permissions: {}
 jobs:
   apply:
     uses: DEFRA/ai-platform-workflows/.github/workflows/apply-state.yml@v1
+    secrets: inherit
     permissions:
       contents: read
       deployments: read
