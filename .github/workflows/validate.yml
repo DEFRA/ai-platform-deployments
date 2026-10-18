@@ -1,11 +1,11 @@
 name: Validate
 
 on:
+  # The App labels each pull request it opens; a label run would only repeat
+  # the check on the same head, and no machine pull request has a review.
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened, labeled, unlabeled]
-  pull_request_review:
-    types: [submitted, dismissed]
+    types: [opened, synchronize, reopened]
 
 permissions: {}
 
