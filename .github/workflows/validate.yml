@@ -1,6 +1,11 @@
 name: Validate
 
 on:
+  # The check reads the pull request's labels and approvals as well as its
+  # head (a human break-glass change needs the break-glass label and two
+  # approvals, README), so a label or review change revalidates. The App
+  # labels each pull request it opens; the concurrency group below keeps one
+  # run per pull request, the newest, so those events cost no extra runs.
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, labeled, unlabeled]
