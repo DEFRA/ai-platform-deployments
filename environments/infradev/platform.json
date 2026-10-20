@@ -1,10 +1,10 @@
 {
   "environment": "infradev",
-  "operationId": "rel-infradev-v0-8-0-39222540853",
-  "previousRelease": "v0.7.0",
-  "release": "v0.8.0",
-  "requestedAt": "2026-10-19T08:24:46.698Z",
+  "operationId": "rel-infradev-v0-9-0-39411543187",
+  "previousRelease": "v0.8.0",
+  "release": "v0.9.0",
+  "requestedAt": "2026-10-20T10:57:31.919Z",
   "requestedBy": "app:ai-platform-orchestrator",
   "schemaVersion": 1,
-  "sha": "613b26d65115faa90de5e4314606042e371afa0e"
+  "sha": "f247445df51abcf65084c1badfc4953243f8784c"
 }
