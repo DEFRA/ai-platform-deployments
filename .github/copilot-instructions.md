@@ -19,6 +19,8 @@ Machine-written GitOps state: the `ai-platform-infra` release each environment r
 
 ## Pull requests
 
+Machine-written PRs (`op/*` branches from `submit.yml`) auto-merge on the required check alone. Do not request Copilot or a person on them, and never add a rule that requires either. The steps below are for break-glass and engineer PRs.
+
 1. Branch `<type>/<description>` (`break-glass/{incident}` for incidents); conventional commits.
 2. Run `aip-checks` canonical and validate against the pinned release before opening the PR.
 3. State the environment, the old and new release, and what the apply will change.
