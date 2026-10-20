@@ -13,7 +13,7 @@ Machine-written GitOps state: the `ai-platform-infra` release each environment r
 ## Conventions
 
 - Nobody edits a pin by hand. Change it by dispatching `submit.yml`, or by break-glass when the portal is down.
-- Break-glass: branch `break-glass/{incident}`, whole file in canonical form (`node ai-platform-infra/checks/bin/aip-checks.js canonical --file <file>`), `revision` advanced, commit trailer `Break-glass: {incident}`, PR labelled `break-glass`, two approvals from people other than the author.
+- Break-glass: branch `break-glass/{incident}`, whole file in canonical form (`node ai-platform-infra/checks/bin/aip-checks.js canonical --file <file>`), `previousRelease` set to the release replaced, commit trailer `Break-glass: {incident}`, PR labelled `break-glass`, two approvals from people other than the author.
 - Retry a failed apply with a fresh dispatch of `apply.yml`, never a re-run.
 - Workflow callers reference `ai-platform-workflows` at `@v1`. A new major arrives as a Dependabot PR and merges through the engineers' bypass after review.
 

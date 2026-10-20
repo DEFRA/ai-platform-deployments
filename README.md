@@ -21,7 +21,7 @@ The contract is `docs/gitops-contract.md` in `ai-platform-infra`; the workflows 
 When the portal is down and a change cannot wait (design B `#break-glass`):
 
 1. Branch `break-glass/{incident}`; edit the whole file in canonical form
-   (`node ai-platform-infra/checks/bin/aip-checks.js canonical --file <file>`); advance `revision`.
+   (`node ai-platform-infra/checks/bin/aip-checks.js canonical --file <file>`); set `previousRelease` to the release replaced.
 2. Commit with the trailer `Break-glass: {incident}`; open a pull request titled with the incident and
    labelled `break-glass`.
 3. `validate` runs as normal and needs two approvals from people other than the author.
