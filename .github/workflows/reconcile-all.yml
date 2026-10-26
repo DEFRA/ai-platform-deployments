@@ -1,0 +1,28 @@
+name: Reconcile all
+
+# Applies every environment from main, whatever changed, nightly and when an
+# engineer dispatches it. The apply's admin check exempts a run whose caller is
+# this file on main with `all: true` and no break-glass input, so keep it so:
+# no environment, allow_destroy or force_unlock here. Writes nothing. This file
+# is code-owned (.github/CODEOWNERS).
+
+on:
+  schedule:
+    - cron: "43 2 * * *"
+  workflow_dispatch:
+
+run-name: reconcile all
+
+permissions: {}
+
+jobs:
+  reconcile-all:
+    uses: DEFRA/ai-platform-workflows/.github/workflows/apply-state.yml@v2
+    secrets: inherit
+    permissions:
+      contents: read
+      deployments: read
+      id-token: write
+    with:
+      state: platform
+      all: true

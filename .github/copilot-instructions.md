@@ -1,6 +1,6 @@
 # ai-platform-deployments
 
-Machine-written GitOps state: the `ai-platform-infra` release each environment runs, at `environments/{env}/platform.json`. The Portal API and the release workflow write it through `submit.yml`; a merge applies the platform. Contract: `docs/gitops-contract.md` in `ai-platform-infra`.
+Machine-written state: the `ai-platform-infra` release each environment runs, at `environments/{env}/platform.json`. The GitOps worker and the release workflow write it through `submit.yml` (a signed commit to `main`, no pull request); a push to `main` applies the platform. Contract: `docs/gitops-contract.md` in `ai-platform-infra`.
 
 ## Review first
 
@@ -8,18 +8,18 @@ Machine-written GitOps state: the `ai-platform-infra` release each environment r
 - **Pin rules.** `release` is a tag `vX.Y.Z` that resolves to `sha`, or a SHA only where the registry entry allows it. `previousRelease` equals the release replaced, so `git log` is a linear ledger. Pins are replaced, never deleted.
 - **One environment per pull request**, and only files under `environments/`. Anything else fails `validate-desired-state / validate` closed and needs an engineer's bypass.
 - **Blast radius.** A merge applies that environment's platform: check the release notes of the new tag, and that the tenants state is not left on an older release than the platform (tenants applies only at the platform's release).
-- `allow_destroy` and `force_unlock` are engineer-only break-glass inputs.
+- `allow_destroy` and `force_unlock` are admin-only break-glass inputs.
 
 ## Conventions
 
 - Nobody edits a pin by hand. Change it by dispatching `submit.yml`, or by break-glass when the portal is down.
 - Break-glass: branch `break-glass/{incident}`, whole file in canonical form (`node ai-platform-infra/checks/bin/aip-checks.js canonical --file <file>`), `previousRelease` set to the release replaced, commit trailer `Break-glass: {incident}`, PR labelled `break-glass`, two approvals from people other than the author.
 - Retry a failed apply with a fresh dispatch of `apply.yml`, never a re-run.
-- Workflow callers reference `ai-platform-workflows` at `@v1`. A new major arrives as a Dependabot PR and merges through the engineers' bypass after review.
+- Workflow callers reference `ai-platform-workflows` at `@v2`. A new major arrives as a Dependabot PR and merges only with a code-owner review by `aice-platform-admins` (`.github/` is code-owned).
 
 ## Pull requests
 
-Machine-written PRs (`op/*` branches from `submit.yml`) auto-merge on the required check alone. Do not request Copilot or a person on them, and never add a rule that requires either. The steps below are for break-glass and engineer PRs.
+`submit.yml` commits to `main` as the App with no pull request, so every pull request here is human: break-glass, or a change to `.github/` or the README. The steps below apply to them.
 
 1. Branch `<type>/<description>` (`break-glass/{incident}` for incidents); conventional commits.
 2. Run `aip-checks` canonical and validate against the pinned release before opening the PR.

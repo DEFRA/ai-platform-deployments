@@ -1,39 +1,53 @@
 name: Submit
 
-# Dispatched by the Portal API (and, for pins, the infra release) with the
-# whole document. Contract: ai-platform-infra docs/gitops-contract.md.
+# Dispatched through the GitOps worker for the Portal API, by the infra release
+# for pins, and by an admin by hand, with the whole document. The workflow
+# commits to main as the App; there is no pull request.
+# Contract: ai-platform-infra docs/gitops-contract.md.
 
 on:
   workflow_dispatch:
     inputs:
       action:
         type: choice
-        options: [write, remove, abandon]
+        options: [write, remove, revert]
         required: true
       environment:
         type: string
         required: true
       path:
         type: string
-        required: false
-        default: ""
+        required: true
       document:
+        description: The whole canonical document, for write and revert.
         type: string
         required: false
         default: ""
       operation_id:
+        description: The Portal API's operation. Leave empty for a hand run, which makes its own.
         type: string
-        required: true
+        required: false
+        default: ""
       expected_revision:
+        description: Team files only; 0 for a new file.
         type: string
         required: false
         default: "0"
+      expected_base:
+        description: Pins only; the pin file's blob SHA on main the caller last read, 0 for a new file.
+        type: string
+        required: false
+        default: ""
       requested_by:
         description: Set by the Portal API. A person who runs this by hand is recorded as github:{user ID}.
         type: string
         required: false
         default: ""
       trace_parent:
+        type: string
+        required: false
+        default: ""
+      cdp_request_id:
         type: string
         required: false
         default: ""
@@ -44,11 +58,11 @@ permissions: {}
 
 jobs:
   submit:
-    uses: DEFRA/ai-platform-workflows/.github/workflows/submit-desired-state.yml@v1
+    uses: DEFRA/ai-platform-workflows/.github/workflows/submit-desired-state.yml@v2
     secrets: inherit
     permissions:
       contents: read
-      pull-requests: read
+      id-token: write
     with:
       action: ${{ inputs.action }}
       environment: ${{ inputs.environment }}
@@ -56,5 +70,7 @@ jobs:
       document: ${{ inputs.document }}
       operation_id: ${{ inputs.operation_id }}
       expected_revision: ${{ inputs.expected_revision }}
+      expected_base: ${{ inputs.expected_base }}
       requested_by: ${{ inputs.requested_by }}
       trace_parent: ${{ inputs.trace_parent }}
+      cdp_request_id: ${{ inputs.cdp_request_id }}

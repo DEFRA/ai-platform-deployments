@@ -1,0 +1,27 @@
+name: Pause
+
+# An admin sets AIP_PAUSED (true or false) on the {env}-events Environment,
+# then runs this to announce it: it reads the variable, publishes paused or
+# resumed with this run's ID, and writes nothing. Admins only, checked by the
+# reusable workflow. Contract: ai-platform-infra docs/gitops-contract.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: string
+        required: true
+
+run-name: pause ${{ inputs.environment }}
+
+permissions: {}
+
+jobs:
+  pause:
+    uses: DEFRA/ai-platform-workflows/.github/workflows/pause.yml@v2
+    secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      environment: ${{ inputs.environment }}

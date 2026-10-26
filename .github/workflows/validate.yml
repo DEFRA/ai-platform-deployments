@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   validate-desired-state:
-    uses: DEFRA/ai-platform-workflows/.github/workflows/validate-desired-state.yml@v1
+    uses: DEFRA/ai-platform-workflows/.github/workflows/validate-desired-state.yml@v2
     secrets: inherit
     permissions:
       contents: read
