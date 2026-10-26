@@ -35,9 +35,10 @@ When the portal is down and a change cannot wait (design B `#break-glass`):
 4. The merge applies like any other change.
 5. Close the incident only when the file matches what the portal would have written.
 
-Retry a failed apply with a fresh dispatch of `apply.yml`, never a re-run: a re-run reapplies its
-original commit and is refused. `allow_destroy` and `force_unlock` on `apply.yml` are admin-only
-break-glass inputs and are reported in the run summary.
+To retry a failed apply, an engineer re-runs the failed jobs of the latest portal or push run, or dispatches
+`reconcile-all.yml`. A fresh hand dispatch of `apply.yml` needs the admin role, as do `allow_destroy` and
+`force_unlock` (break-glass inputs, reported in the run summary); the admin check requires it of both the actor and
+whoever re-ran the run. A re-run of a run that is no longer the head of `main` is refused as `superseded`.
 
 The callers in `.github/workflows/` reference `ai-platform-workflows` at `@v2`, so every release within a
 major reaches them unchanged. A new major arrives as a Dependabot pull request; it changes `.github/`, so it
