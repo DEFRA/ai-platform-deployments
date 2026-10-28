@@ -23,6 +23,7 @@ jobs:
       contents: read
       deployments: read
       id-token: write
+      pull-requests: read
     with:
       state: platform
       all: true
