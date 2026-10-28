@@ -3,7 +3,7 @@ name: Apply
 on:
   push:
     branches: [main]
-    paths: ['environments/*/platform.json']
+    paths: ["environments/*/platform.json"]
   workflow_dispatch:
     inputs:
       environment:
@@ -14,11 +14,11 @@ on:
         required: false
         default: ""
       allow_destroy:
-        description: Break-glass, engineers only.
+        description: Break-glass, admins only.
         type: boolean
         default: false
       force_unlock:
-        description: Break-glass, engineers only; a state lease ID.
+        description: Break-glass, admins only; a state lease ID.
         type: string
         default: ""
 
@@ -28,7 +28,7 @@ permissions: {}
 
 jobs:
   apply:
-    uses: DEFRA/ai-platform-workflows/.github/workflows/apply-state.yml@v1
+    uses: DEFRA/ai-platform-workflows/.github/workflows/apply-state.yml@v2
     secrets: inherit
     permissions:
       contents: read
