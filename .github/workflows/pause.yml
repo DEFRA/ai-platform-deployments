@@ -1,6 +1,6 @@
 name: Pause
 
-# An admin sets AIP_PAUSED (true or false) on the {env}-events Environment,
+# An admin sets AIP_PAUSED (true or false) on the {env} Environment,
 # then runs this to announce it: it reads the variable, publishes paused or
 # resumed with this run's ID, and writes nothing. Admins only, checked by the
 # reusable workflow. Contract: ai-platform-infra docs/gitops-contract.md.
