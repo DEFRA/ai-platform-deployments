@@ -16,6 +16,7 @@ Machine-written state: the `ai-platform-infra` release each environment runs, at
 - Break-glass: branch `break-glass/{incident}`, whole file in canonical form (`node ai-platform-infra/checks/bin/aip-checks.js canonical --file <file>`), `previousRelease` set to the release replaced, commit trailer `Break-glass: {incident}`, PR labelled `break-glass`, two approvals from people other than the author.
 - To retry a failed apply, an engineer re-runs the failed jobs of the latest portal or push run, or dispatches `reconcile-all.yml`. A fresh hand dispatch of `apply.yml` and the break-glass inputs need the admin role (actor and whoever re-ran it); a re-run of a run no longer at the head of `main` is refused as `superseded`.
 - Workflow callers reference `ai-platform-workflows` at `@v2`. A new major arrives as a Dependabot PR and merges only with a code-owner review by `aice-platform-admins` (`.github/` is code-owned).
+- **One GitHub Environment per core environment** (one per `registry.json` entry in `ai-platform-environments`; `infradev` today), named exactly as its `environments/{env}/` folder. Never add a prefix or suffix Environment (`{env}-events`, `{env}-plan`) or a folder for one; the workflows read `{env}` with `deployment: false` when they must not record a Deployment. Add an environment by the checklist in `ai-platform-workflows` README, "Adding an environment".
 
 ## Pull requests
 

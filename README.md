@@ -16,7 +16,7 @@ The contract is `docs/gitops-contract.md` in `ai-platform-infra`; the workflows 
 | `validate.yml`      | Pull request                                 | `validate-desired-state / validate`                                                          |
 | `apply.yml`         | Merge to `main`, or a dispatch               | Apply with the safeguards, a run report and events                                           |
 | `reconcile-all.yml` | Nightly, or an engineer's dispatch           | Apply every environment from `main`; takes no environment and no break-glass input           |
-| `pause.yml`         | Dispatch by an admin                         | Announce `AIP_PAUSED` on `{env}-events` as `paused` or `resumed`; writes nothing             |
+| `pause.yml`         | Dispatch by an admin                         | Announce `AIP_PAUSED` on `{env}` as `paused` or `resumed`; writes nothing                    |
 
 Hand runs of `submit.yml`, `apply.yml` and `pause.yml` need the repository admin role
 (`aice-platform-admins`); engineers re-run failed jobs of portal and push runs and dispatch `reconcile-all.yml`.
